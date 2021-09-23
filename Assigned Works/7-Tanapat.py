@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[7]:
+# In[9]:
 
 
 op = ["[","{","("]
@@ -17,8 +17,9 @@ def check_Paranthesis(str):
             if((len(Stack)>0)) and (op[cp_pos] == Stack[len(Stack)-1]):
                 Stack.pop()
             else: return "not ok"
+                  
     if len(Stack) == 0: return "ok"
-    
+    else: return "not ok"
 
 string = "{[]{(Test)}}"
 print(string,"-", check_Paranthesis(string))
@@ -27,6 +28,8 @@ print(string,"-", check_Paranthesis(string))
 string = "(Test) Hello"
 print(string,"-", check_Paranthesis(string))
 string = "(Test) Hello(())"
+print(string,"-", check_Paranthesis(string))
+string = "123456((Test) Hello(())"
 print(string,"-", check_Paranthesis(string))
 
 
