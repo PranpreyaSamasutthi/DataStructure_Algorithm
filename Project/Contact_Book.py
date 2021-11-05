@@ -5,18 +5,16 @@ import os
 
 
 def initial_phonebook():
+
     #### To check wheter the contact book already existed or not
     if os.path.exists('./ContactList.csv'):
         phone_book = pd.read_csv('ContactList.csv', header=None, index_col=0, squeeze=True).to_dict()
-    else:
+    else :
         phone_book = {}
         rows, cols = int(input("Please enter initial number of contacts: ")), 5
-
-        # We are collecting the initial number of contacts the user wants to have in the
-        # phonebook already. User may also enter 0 if he doesn't wish to enter any.
-        ##phone_book = {}
-
+        
         for i in range(rows):
+            contact = {}
             print("\nEnter contact %d details in the following order (ONLY):" % (i + 1))
             print("NOTE: * indicates mandatory fields")
             print("....................................................................")
@@ -277,6 +275,8 @@ print("You may now proceed to explore this directory")
 print("....................................................................")
 # This is solely meant for decoration purpose only.
 # You're free to modify your interface as per your will to make it look interactive
+
+
 
 ch = 1
 pb = initial_phonebook()
