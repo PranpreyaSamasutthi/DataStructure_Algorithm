@@ -5,12 +5,29 @@ import os
 import itertools
 
 def initial_phonebook():
-
+    phone_book = {}
+    header = True
     #### To check wheter the contact book already existed or not
     if os.path.exists('./ContactList.csv'):
-        phone_book = pd.read_csv('ContactList.csv', header=None, index_col=0, squeeze=True).to_dict()
+        #phone_book = pd.read_csv('ContactList.csv', header=None, index_col=0, squeeze=True).to_dict()
+        filehandle = open('ContactList.csv')
+        for line in filehandle.readlines():
+            if header:
+               header = False
+               continue
+            Name, Phone, Email, DOB, Category = line.strip().split(",")
+            d_Name = phone_book.get(Name,{})
+            d_Category = d_Name.get(Category,{})
+            d_DOB = d_Name.get(DOB,{})
+            d_Email = d_Name.get(Email,{})
+            d_Phone = d_Name.get(Phone,{})
+            d_Name['Phone'] = Phone
+            d_Name['Email'] = Email
+            d_Name['DOB'] = DOB
+            d_Name['Category'] = Category
+            phone_book[Name] = d_Name
     else :
-        phone_book = {}
+
         rows, cols = int(input("Please enter initial number of contacts: ")), 5
         
         for i in range(rows):
@@ -258,12 +275,18 @@ def menu():
 
 
 def writeCSV(pb):
-    header = sorted(set(i for b in map(dict.keys, pb.values()) for i in b))
-    with open("ContactList.csv", "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(['location', *header])
-        for a,b in pb.items():
-            w.writerow([a]+[b.get(i, '') for i in header])
+    #header = set(i for b in map(dict.keys, pb.values()) for i in b)
+    if not pb: 
+        if os.path.exists("./ContactList.csv"):
+            os.remove("ContactList.csv")
+    else:
+        header = ['Phone','Email','DOB','Category']
+        #with open("ContactList.csv", "w", newline="") as f:
+        with open("ContactList.csv", "w", newline="") as f:
+            w = csv.writer(f)
+            w.writerow(['Name', *header])
+            for a,b in pb.items():
+                w.writerow([a]+[b.get(i, '') for i in header])
 
     #with open('ContactList.csv', 'w') as csvfile:
     #    # keep key-value in the same row
