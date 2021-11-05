@@ -4,32 +4,33 @@ import pandas as pd
 import os
 import itertools
 
+
 def initial_phonebook():
     phone_book = {}
     header = True
     #### To check wheter the contact book already existed or not
     if os.path.exists('./ContactList.csv'):
-        #phone_book = pd.read_csv('ContactList.csv', header=None, index_col=0, squeeze=True).to_dict()
+        # phone_book = pd.read_csv('ContactList.csv', header=None, index_col=0, squeeze=True).to_dict()
         filehandle = open('ContactList.csv')
         for line in filehandle.readlines():
             if header:
-               header = False
-               continue
+                header = False
+                continue
             Name, Phone, Email, DOB, Category = line.strip().split(",")
-            d_Name = phone_book.get(Name,{})
-            d_Category = d_Name.get(Category,{})
-            d_DOB = d_Name.get(DOB,{})
-            d_Email = d_Name.get(Email,{})
-            d_Phone = d_Name.get(Phone,{})
+            d_Name = phone_book.get(Name, {})
+            d_Category = d_Name.get(Category, {})
+            d_DOB = d_Name.get(DOB, {})
+            d_Email = d_Name.get(Email, {})
+            d_Phone = d_Name.get(Phone, {})
             d_Name['Phone'] = Phone
             d_Name['Email'] = Email
             d_Name['DOB'] = DOB
             d_Name['Category'] = Category
             phone_book[Name] = d_Name
-    else :
+    else:
 
         rows, cols = int(input("Please enter initial number of contacts: ")), 5
-        
+
         for i in range(rows):
             contact = {}
             print("\nEnter contact %d details in the following order (ONLY):" % (i + 1))
@@ -90,10 +91,21 @@ def display_all(pb):
     if not pb:
         # if display function is called after deleting all contacts then the len will be 0
         # And then without this condition it will throw an error
-        print("List is empty: []")
+        print("Phonebook is empty.")
     else:
         for key, value in pb.items():
             print('Name: ', key, '->', value)
+
+def checkExistingKey():
+    check = True
+    while check:
+        name = str(input("Enter name: "))
+        if pb.get(name) is not None:
+            print("This name is already exists, please try again")
+            check = True
+        else:
+            check = False
+            return name
 
 
 def add_contact(pb):
@@ -103,12 +115,9 @@ def add_contact(pb):
     for i in range(5):
         contact = {}
         if i == 0:
-            name = str(input("Enter name: "))
-            if pb.get(name) is not None:
-                print("This name is already exists, please try again")
-                # find condition to break
-            else:
-                dip.append(name)
+            inputName = checkExistingKey()
+            # print("inputName: ", inputName)
+            dip.append(inputName)
         if i == 1:
             dip.append(str(input("Enter number: ")))
         if i == 2:
@@ -275,20 +284,20 @@ def menu():
 
 
 def writeCSV(pb):
-    #header = set(i for b in map(dict.keys, pb.values()) for i in b)
-    if not pb: 
+    # header = set(i for b in map(dict.keys, pb.values()) for i in b)
+    if not pb:
         if os.path.exists("./ContactList.csv"):
             os.remove("ContactList.csv")
     else:
-        header = ['Phone','Email','DOB','Category']
-        #with open("ContactList.csv", "w", newline="") as f:
+        header = ['Phone', 'Email', 'DOB', 'Category']
+        # with open("ContactList.csv", "w", newline="") as f:
         with open("ContactList.csv", "w", newline="") as f:
             w = csv.writer(f)
             w.writerow(['Name', *header])
-            for a,b in pb.items():
-                w.writerow([a]+[b.get(i, '') for i in header])
+            for a, b in pb.items():
+                w.writerow([a] + [b.get(i, '') for i in header])
 
-    #with open('ContactList.csv', 'w') as csvfile:
+    # with open('ContactList.csv', 'w') as csvfile:
     #    # keep key-value in the same row
     #    writer = csv.writer(csvfile)
     #    for key, value in pb.items():
@@ -305,7 +314,6 @@ print("You may now proceed to explore this directory")
 print("....................................................................")
 # This is solely meant for decoration purpose only.
 # You're free to modify your interface as per your will to make it look interactive
-
 
 
 ch = 1
@@ -329,4 +337,3 @@ while ch in (1, 2, 3, 4, 5, 6):
         thanks()
     else:
         ch = menu()
-
