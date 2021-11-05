@@ -1,14 +1,13 @@
-pran,"{'Phone': '0555555555', 'Email': 'pran.mail', 'DOB': '9/6/1999', 'Category': 'Family'}"
-Tan,"{'Phone': '0333333333', 'Email': 'tan.mail', 'DOB': '6/7/1888', 'Category': 'Friends'}"
-data,"{'Phone': '0844446666', 'Email': 'data.mail', 'DOB': '7/4/1998', 'Category': 'Work'}"
-d,"{'Phone': '0866666666', 'Email': 'd.mail', 'DOB': '6/1/1996', 'Category': 'Friends'}"
-pran,"{'Phone': '0555555555', 'Email': 'pran.mail', 'DOB': '9/6/1999', 'Category': 'Family'}"
-Tan,"{'Phone': '0333333333', 'Email': 'tan.mail', 'DOB': '6/7/1888', 'Category': 'Friends'}"
-data,"{'Phone': '0844446666', 'Email': 'data.mail', 'DOB': '7/4/1998', 'Category': 'Work'}"
-d,"{'Phone': '0866666666', 'Email': 'd.mail', 'DOB': '6/1/1996', 'Category': 'Friends'}"
-Test,"{'Phone': '098796', 'Email': 'asf', 'DOB': None, 'Category': None}"
-pran,"{'Phone': '0555555555', 'Email': 'pran.mail', 'DOB': '9/6/1999', 'Category': 'Family'}"
-Tan,"{'Phone': '0333333333', 'Email': 'tan.mail', 'DOB': '6/7/1888', 'Category': 'Friends'}"
-data,"{'Phone': '0844446666', 'Email': 'data.mail', 'DOB': '7/4/1998', 'Category': 'Work'}"
-d,"{'Phone': '0866666666', 'Email': 'd.mail', 'DOB': '6/1/1996', 'Category': 'Friends'}"
-Test,"{'Phone': '098796', 'Email': 'asf', 'DOB': None, 'Category': None}"
+pran,"{'Phone': '0888888888', 'Email': 'pranNew.mail', 'DOB': '6/1/1997', 'Category': 'Family'}"
+,
+Tan,"{'Phone': '0333333333', 'Email': 'tan.mail', 'DOB': '6/7/1888', 'Category': 'Friends'}"
+,
+data,"{'Phone': '0844446666', 'Email': 'data.mail', 'DOB': '7/4/1998', 'Category': 'Work'}"
+,
+d,"{'Phone': '0866666666', 'Email': 'd.mail', 'DOB': '6/1/1996', 'Category': 'Friends'}"
+,
+pranpreya,"{'Phone': '022222222', 'Email': 'pranpreya.mail', 'DOB': '14/10/1990', 'Category': 'Friends'}"
+,
+test,"{'Phone': '0999999999', 'Email': 's.mail', 'DOB': '1/1/1998', 'Category': 'Friends'}"
+,
+p,"{'Phone': 'p.mail', 'Email': 'p.mail.com', 'DOB': '4/10/1998', 'Category': 'Friends'}"

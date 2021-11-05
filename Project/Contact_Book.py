@@ -12,10 +12,6 @@ def initial_phonebook():
     else :
         phone_book = {}
         rows, cols = int(input("Please enter initial number of contacts: ")), 5
-
-        # We are collecting the initial number of contacts the user wants to have in the
-        # phonebook already. User may also enter 0 if he doesn't wish to enter any.
-        ##phone_book = {}
         
         for i in range(rows):
             contact = {}
@@ -90,7 +86,12 @@ def add_contact(pb):
     for i in range(5):
         contact = {}
         if i == 0:
-            dip.append(str(input("Enter name: ")))
+            name = str(input("Enter name: "))
+            if pb.get(name) is not None:
+                print("This name is already exists, please try again")
+                # find condition to break
+            else:
+                dip.append(name)
         if i == 1:
             dip.append(str(input("Enter number: ")))
         if i == 2:
@@ -257,16 +258,14 @@ def menu():
 
 
 def writeCSV(pb):
-    # use 'a' for append data without deleting existing data
-    with open('ContactList.csv', 'a') as csvfile:
+    with open('ContactList.csv', 'w') as csvfile:
         # keep key-value in the same row
         writer = csv.writer(csvfile)
         for key, value in pb.items():
             writer.writerow([key, value])
-       # writer = csv.DictWriter(csvfile, fieldnames=pb.keys())
-       # writer.writeheader()
-       # writer.writerow(pb)
-
+    # writer = csv.DictWriter(csvfile, fieldnames=pb.keys())
+    # writer.writeheader()
+    # writer.writerow(pb)
 
 
 # Main function code
@@ -281,7 +280,7 @@ print("....................................................................")
 
 ch = 1
 pb = initial_phonebook()
-while ch in (1, 2, 3, 4, 5):
+while ch in (1, 2, 3, 4, 5, 6):
     ch = menu()
     if ch == 1:
         pb = add_contact(pb)
@@ -293,9 +292,11 @@ while ch in (1, 2, 3, 4, 5):
         pb = remove_existing(pb)
     elif ch == 4:
         pb = delete_all(pb)
-
     elif ch == 5:
         display_all(pb)
-    else:
+    elif ch == 6:
         writeCSV(pb)
         thanks()
+    else:
+        ch = menu()
+
