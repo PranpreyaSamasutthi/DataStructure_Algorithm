@@ -1,66 +1,72 @@
 import sys
 import csv
+import pandas as pd
+import os
 
 
 def initial_phonebook():
-    rows, cols = int(input("Please enter initial number of contacts: ")), 5
+    #### To check wheter the contact book already existed or not
+    if os.path.exists('./ContactList.csv'):
+        phone_book = pd.read_csv('ContactList.csv', header=None, index_col=0, squeeze=True).to_dict()
+    else:
+        phone_book = {}
+        rows, cols = int(input("Please enter initial number of contacts: ")), 5
 
-    # We are collecting the initial number of contacts the user wants to have in the
-    # phonebook already. User may also enter 0 if he doesn't wish to enter any.
-    phone_book = {}
-    print(phone_book)
-    for i in range(rows):
-        contact = {}
-        print("\nEnter contact %d details in the following order (ONLY):" % (i + 1))
-        print("NOTE: * indicates mandatory fields")
-        print("....................................................................")
-        temp = []
-        for j in range(cols):
+        # We are collecting the initial number of contacts the user wants to have in the
+        # phonebook already. User may also enter 0 if he doesn't wish to enter any.
+        ##phone_book = {}
 
-            # We have taken the conditions for values of j only for the personalized fields
-            # such as name, number, e-mail id, dob, category etc
-            if j == 0:
-                temp.append(str(input("Enter name*: ")))
+        for i in range(rows):
+            print("\nEnter contact %d details in the following order (ONLY):" % (i + 1))
+            print("NOTE: * indicates mandatory fields")
+            print("....................................................................")
+            temp = []
+            for j in range(cols):
 
-                # We need to check if the user has left the name empty as its mentioned that
-                # name & number are mandatory fields.
-                # So implement a condition to check as below.
-                if temp[j] == '' or temp[j] == ' ':
-                    sys.exit(
-                        "Name is a mandatory field. Process exiting due to blank field...")
-                    # This will exit the process if a blank field is encountered.
+                # We have taken the conditions for values of j only for the personalized fields
+                # such as name, number, e-mail id, dob, category etc
+                if j == 0:
+                    temp.append(str(input("Enter name*: ")))
 
-            if j == 1:
-                temp.append(str(input("Enter number*: ")))
-                # We do not need to check if user has entered the number because int automatically
-                # takes care of it. Int value cannot accept a blank as that counts as a string.
-                # So process automatically exits without us using the sys package.
+                    # We need to check if the user has left the name empty as its mentioned that
+                    # name & number are mandatory fields.
+                    # So implement a condition to check as below.
+                    if temp[j] == '' or temp[j] == ' ':
+                        sys.exit(
+                            "Name is a mandatory field. Process exiting due to blank field...")
+                        # This will exit the process if a blank field is encountered.
 
-            if j == 2:
-                temp.append(str(input("Enter e-mail address: ")))
-                # Even if this field is left as blank, None will take the blank's place
-                if temp[j] == '' or temp[j] == ' ':
-                    temp[j] = None
+                if j == 1:
+                    temp.append(str(input("Enter number*: ")))
+                    # We do not need to check if user has entered the number because int automatically
+                    # takes care of it. Int value cannot accept a blank as that counts as a string.
+                    # So process automatically exits without us using the sys package.
 
-            if j == 3:
-                temp.append(str(input("Enter date of birth(dd/mm/yy): ")))
-                # Whatever format the user enters dob in, it won't make a difference to the compiler
-                # Only while searching the user will have to enter query exactly the same way as
-                # he entered during the input so as to ensure accurate searches
-                if temp[j] == '' or temp[j] == ' ':
+                if j == 2:
+                    temp.append(str(input("Enter e-mail address: ")))
                     # Even if this field is left as blank, None will take the blank's place
-                    temp[j] = None
-            if j == 4:
-                temp.append(
-                    str(input("Enter category(Family/Friends/Work/Others): ")))
-                # Even if this field is left as blank, None will take the blank's place
-                if temp[j] == "" or temp[j] == ' ':
-                    temp[j] = None
+                    if temp[j] == '' or temp[j] == ' ':
+                        temp[j] = None
 
-        contact = {'Phone': temp[1], 'Email': temp[2], 'DOB': temp[3], 'Category': temp[4]}
-        # By this step we are appending a list temp into a list phone_book
-        # That means phone_book is a 2-D array and temp is a 1-D array
-        phone_book[temp[0]] = contact
+                if j == 3:
+                    temp.append(str(input("Enter date of birth(dd/mm/yy): ")))
+                    # Whatever format the user enters dob in, it won't make a difference to the compiler
+                    # Only while searching the user will have to enter query exactly the same way as
+                    # he entered during the input so as to ensure accurate searches
+                    if temp[j] == '' or temp[j] == ' ':
+                        # Even if this field is left as blank, None will take the blank's place
+                        temp[j] = None
+                if j == 4:
+                    temp.append(
+                        str(input("Enter category(Family/Friends/Work/Others): ")))
+                    # Even if this field is left as blank, None will take the blank's place
+                    if temp[j] == "" or temp[j] == ' ':
+                        temp[j] = None
+
+            contact = {'Phone': temp[1], 'Email': temp[2], 'DOB': temp[3], 'Category': temp[4]}
+            # By this step we are appending a list temp into a list phone_book
+            # That means phone_book is a 2-D array and temp is a 1-D array
+            phone_book[temp[0]] = contact
     print(phone_book)
     return phone_book
 
@@ -82,7 +88,12 @@ def add_contact(pb):
     for i in range(5):
         contact = {}
         if i == 0:
-            dip.append(str(input("Enter name: ")))
+            name = str(input("Enter name: "))
+            if pb.get(name) is not None:
+                print("This name is already exists, please try again")
+                # find condition to break
+            else:
+                dip.append(name)
         if i == 1:
             dip.append(str(input("Enter number: ")))
         if i == 2:
@@ -249,16 +260,14 @@ def menu():
 
 
 def writeCSV(pb):
-    # use 'a' for append data without deleting existing data
-    with open('ContactList.csv', 'a') as csvfile:
+    with open('ContactList.csv', 'w') as csvfile:
         # keep key-value in the same row
         writer = csv.writer(csvfile)
         for key, value in pb.items():
             writer.writerow([key, value])
-       # writer = csv.DictWriter(csvfile, fieldnames=pb.keys())
-       # writer.writeheader()
-       # writer.writerow(pb)
-
+    # writer = csv.DictWriter(csvfile, fieldnames=pb.keys())
+    # writer.writeheader()
+    # writer.writerow(pb)
 
 
 # Main function code
@@ -271,7 +280,7 @@ print("....................................................................")
 
 ch = 1
 pb = initial_phonebook()
-while ch in (1, 2, 3, 4, 5):
+while ch in (1, 2, 3, 4, 5, 6):
     ch = menu()
     if ch == 1:
         pb = add_contact(pb)
@@ -283,9 +292,11 @@ while ch in (1, 2, 3, 4, 5):
         pb = remove_existing(pb)
     elif ch == 4:
         pb = delete_all(pb)
-
     elif ch == 5:
         display_all(pb)
-    else:
+    elif ch == 6:
         writeCSV(pb)
         thanks()
+    else:
+        ch = menu()
+
