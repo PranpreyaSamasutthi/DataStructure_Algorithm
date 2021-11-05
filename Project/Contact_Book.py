@@ -2,7 +2,7 @@ import sys
 import csv
 import pandas as pd
 import os
-
+import itertools
 
 def initial_phonebook():
 
@@ -258,11 +258,18 @@ def menu():
 
 
 def writeCSV(pb):
-    with open('ContactList.csv', 'w') as csvfile:
-        # keep key-value in the same row
-        writer = csv.writer(csvfile)
-        for key, value in pb.items():
-            writer.writerow([key, value])
+    header = sorted(set(i for b in map(dict.keys, pb.values()) for i in b))
+    with open("ContactList.csv", "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(['location', *header])
+        for a,b in pb.items():
+            w.writerow([a]+[b.get(i, '') for i in header])
+
+    #with open('ContactList.csv', 'w') as csvfile:
+    #    # keep key-value in the same row
+    #    writer = csv.writer(csvfile)
+    #    for key, value in pb.items():
+    #        writer.writerow([key, value])
     # writer = csv.DictWriter(csvfile, fieldnames=pb.keys())
     # writer.writeheader()
     # writer.writerow(pb)
