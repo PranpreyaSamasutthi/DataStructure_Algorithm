@@ -18,10 +18,12 @@ def initial_phonebook():
                 continue
             Name, Phone, Email, DOB, Category = line.strip().split(",")
             d_Name = phone_book.get(Name, {})
+            """
             d_Category = d_Name.get(Category, {})
             d_DOB = d_Name.get(DOB, {})
             d_Email = d_Name.get(Email, {})
             d_Phone = d_Name.get(Phone, {})
+            """
             d_Name['Phone'] = Phone
             d_Name['Email'] = Email
             d_Name['DOB'] = DOB
@@ -96,12 +98,19 @@ def display_all(pb):
         for key, value in pb.items():
             print('Name: ', key, '->', value)
 
+
 def checkExistingKey():
     check = True
     while check:
         name = str(input("Enter name: "))
         if pb.get(name) is not None:
+            # name is a key, so we shouldn't insert the same name
+            # To prevent the override the old key when inserting the same key
             print("This name is already exists, please try again")
+            check = True
+        elif not name:
+            # name must not be null because it's key
+            print("Name is required, please try again")
             check = True
         else:
             check = False
@@ -189,8 +198,7 @@ def search_existing(pb):
 
     elif choice == 3:
         # This will execute for searches based on contact's e-mail address
-        query = str(input("Please enter the e-mail ID\
-        of the contact you wish to search: "))
+        query = str(input("Please enter the e-mail ID of the contact you wish to search: "))
         for key, value in pb.items():
             if value['Email'].find(query) != -1:
                 print('Name: ', key, '->', value)
