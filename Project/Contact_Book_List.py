@@ -13,8 +13,9 @@ def initial_phonebook():
     #### To check wheter the contact book already existed or not
     if os.path.exists('./ContactList_List.csv'):
         # phone_book = pd.read_csv('ContactList.csv', header=None, index_col=0, squeeze=True).to_dict()
-        with open('ContactList_List.csv') as csvfile:
+        with open('ContactList_List.csv', 'r') as csvfile:
             csvReader = csv.reader(csvfile)
+            next(csvReader)
             for row in csvReader:
                 phone_book.append(row)
     else:
@@ -129,7 +130,7 @@ def remove_existing(pb):
     temp = 0
     # temp is a checking variable here. We assigned a value 0 to temp.
 
-    for i in range(5):
+    for i in range(len(pb)):
         if query == pb[i][0]:
             temp += 1
             # Temp will be incremented & it won't be 0 anymore in this function's scope
@@ -260,13 +261,12 @@ def writeCSV(pb):
         if os.path.exists("./ContactList_List.csv"):
             os.remove("ContactList_List.csv")
     else:
-        header = ['Phone', 'Email', 'DOB', 'Category']
+        header = ['Name', 'Phone', 'Email', 'DOB', 'Category']
         # with open("ContactList.csv", "w", newline="") as f:
-        with open("ContactList_List.csv", "w", newline="") as f:
+        with open("ContactList_List.csv", "w", newline='') as f:
             w = csv.writer(f)
-            w.writerow(['Name', *header])
+            w.writerow(header)
             w.writerows(pb)
-
 
 # Main function code
 print("....................................................................")
