@@ -77,8 +77,8 @@ class Tree:
         if val == node.v:
             for i in range(len(pb)):
                 if val == pb[i][0]:
-                    info = pb[i][1] + " -> " + pb[i][2] + " " + pb[i][3] + " " + pb[i][4]
-            return print(node.v + " " + info)
+                    info = pb[i][1] + " " + pb[i][2] + " " + pb[i][3] + " " + pb[i][4]
+            return print(node.v + " -> " + info)
         elif val < node.v and node.l is not None:
             return self._find(val, node.l)
         elif val > node.v and node.r is not None:
