@@ -20,65 +20,89 @@ class Tree:
     def getRoot(self):
         return self.root
 
-    def add(self, pb):
-        print("Add func", pb)
+    def add(self, phoneBook, check):
+        # print("Add func", phoneBook)
+        # print("Check = ", check)
         dip = []
         for i in range(5):
             if i == 0:
-                dip.append(str(input("Enter name: ")))
+                if check == 1:
+                    dip.append(phoneBook[0])
+                    # print("Name ", phoneBook[0])
+                else:
+                    dip.append(str(input("Enter name: ")))
             if i == 1:
-                dip.append(str(input("Enter number: ")))
+                if check == 1:
+                    dip.append(phoneBook[1])
+                    # print("Number ", phoneBook[1])
+                else:
+                    dip.append(str(input("Enter number: ")))
             if i == 2:
-                dip.append(str(input("Enter e-mail address: ")))
+                if check == 1:
+                    dip.append(phoneBook[2])
+                    # print("Email ", phoneBook[2])
+                else:
+                    dip.append(str(input("Enter e-mail address: ")))
             if i == 3:
-                dip.append(str(input("Enter date of birth(dd/mm/yy): ")))
+                if check == 1:
+                    dip.append(phoneBook[3])
+                    # print("DOB ", phoneBook[3])
+                else:
+                    dip.append(str(input("Enter date of birth(dd/mm/yy): ")))
             if i == 4:
-                dip.append(str(input("Enter category(Family/Friends/Work/Others): ")))
+                if check == 1:
+                    dip.append(phoneBook[4])
+                    # print("Category ", phoneBook[4])
+                else:
+                    dip.append(str(input("Enter category(Family/Friends/Work/Others): ")))
 
         if self.root is None:
             #self.root = Node(val)
             self.root = Node(dip[0])
             # print("root")
-            pb.append(dip)
-            return pb
+            if check != 1:
+                phoneBook.append(dip)
+            return phoneBook
         else:
-            self._add(dip[0], self.root, dip)
+            self._add(dip[0], self.root, dip, check)
             # print(self.root)
-            return pb
+            return phoneBook
 
-    def _add(self, val, node, dip):
+    def _add(self, val, node, dip, check):
         # print("Val", val)
-        if val < node.v:
+        if val.lower() < str(node.v).lower():
             if node.l is not None:
-                self._add(val, node.l, dip)
+                self._add(val, node.l, dip, check)
             else:
                 node.l = Node(val)
                 node.l.p = node
-                pb.append(dip)
+                if check != 1:
+                    pb.append(dip)
                 # print("Left ", pb)
                 # print('add', val, 'parent is ', node.l.p.v)
         else:
             if node.r is not None:
-                self._add(val, node.r, dip)
+                self._add(val, node.r, dip, check)
             else:
                 node.r = Node(val)
                 node.r.p = node
-                pb.append(dip)
+                if check != 1:
+                    pb.append(dip)
                 # print('add', val, 'parent is ', node.r.p.v)
 
     def find(self):
-        name = str(input("Enter name that you want to search: "))
+        name = str(input("Enter name that you want to search: ")).lower()
         if self.root is not None:
             return self._find(name, self.root)
         else:
             return print("Invalid search criteria")
 
     def _find(self, val, node):
-        if val == node.v:
+        if val == str(node.v).lower():
             for i in range(len(pb)):
-                if val == pb[i][0]:
-                    info = pb[i][1] + " " + pb[i][2] + " " + pb[i][3] + " " + pb[i][4]
-            return print(node.v + " -> " + info)
+                if val == pb[i][0].lower():
+                    info = "Number: " + pb[i][1] + ", Email: " + pb[i][2] + ", DOB: " + pb[i][3] + ", Category: " + pb[i][4]
+                    return print(node.v + " -> " + info)
         elif val < node.v and node.l is not None:
             return self._find(val, node.l)
         elif val > node.v and node.r is not None:
@@ -91,10 +115,10 @@ class Tree:
     def _printTree(self, node):
         if node is not None:
             self._printTree(node.l)
-            print(str(node.v))
+            print(str(node.v), ":")
             for i in range(len(pb)):
                 if str(node.v) == pb[i][0]:
-                    print(pb[i][1], pb[i][2], pb[i][3], pb[i][4])
+                    print("Number:", pb[i][1], ", Email:", pb[i][2], ", DOB:", pb[i][3], ", Category:", pb[i][4])
             self._printTree(node.r)
 
 
@@ -110,7 +134,6 @@ def initial_phonebook():
             next(csvReader)
             for row in csvReader:
                 phone_book.append(row)
-
     # print(phone_book)
     return phone_book
 
@@ -207,11 +230,15 @@ print("....................................................................")
 ch = 1
 tree = Tree()
 pb = initial_phonebook()
-print(pb)
+print("Existing contact in phonebook -> ", pb)
+for i in range(len(pb)):
+    # print(pb[i])
+    tree.add(pb[i], 1)
+
 while ch in (1, 2, 3, 4, 5, 6):
     ch = menu()
     if ch == 1:
-        pb = tree.add(pb)
+        pb = tree.add(pb, 2)
     elif ch == 2:
         tree.find()
     elif ch == 3:
