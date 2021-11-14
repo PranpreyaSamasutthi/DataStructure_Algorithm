@@ -85,7 +85,7 @@ def initial_phonebook():
             # By this step we are appending a list temp into a list phone_book
             # That means phone_book is a 2-D array and temp is a 1-D array
             phone_book[temp[0]] = contact
-    print(phone_book)
+    ##print(phone_book)
     return phone_book
 
 
