@@ -183,67 +183,67 @@ def search_existing(pb):
         # This will execute for searches based on contact name
         query = str(
             input("Please enter the name of the contact you wish to search: "))
-        time_start = time.time()
+        time_start = time.time_ns()
         for key, value in pb.items():
             if key.find(query) != -1:
                 print('Name: ', key, '->', value)
                 check = check + 1
-        time_end = time.time()
+        time_end = time.time_ns()
         time_spent = time_end-time_start
 
     elif choice == 2:
         # This will execute for searches based on contact number
         query = str(
             input("Please enter the number of the contact you wish to search: "))
-        time_start = time.time()
+        time_start = time.time_ns()
         for key, value in pb.items():
             if value['Phone'].find(query) != -1:
                 print('Name: ', key, '->', value)
                 check = check + 1
-        time_end = time.time()
+        time_end = time.time_ns()
         time_spent = time_end-time_start
 
     elif choice == 3:
         # This will execute for searches based on contact's e-mail address
         query = str(input("Please enter the e-mail ID of the contact you wish to search: "))
-        time_start = time.time()
+        time_start = time.time_ns()
         for key, value in pb.items():
             if value['Email'].find(query) != -1:
                 print('Name: ', key, '->', value)
                 check = check + 1
-        time_end = time.time()
+        time_end = time.time_ns()
         time_spent = time_end-time_start
 
     elif choice == 4:
         # This will execute for searches based on contact''s date of birth
         query = str(input("Please enter the DOB (in dd/mm/yyyy format ONLY)\
             of the contact you wish to search: "))
-        time_start = time.time()
+        time_start = time.time_ns()
         for key, value in pb.items():
             if value['DOB'].find(query) != -1:
                 print('Name: ', key, '->', value)
                 check = check + 1
-        time_end = time.time()
+        time_end = time.time_ns()
         time_spent = time_end-time_start
 
     elif choice == 5:
         # This will execute for searches based on contact category
         query = str(
             input("Please enter the category of the contact you wish to search: "))
-        time_start = time.time()
+        time_start = time.time_ns()
         for key, value in pb.items():
             if value['Category'].find(query) != -1:
                 print('Name: ', key, '->', value)
                 check = check + 1
         # All contacts under query category will be shown using this feature
-        time_end = time.time()
+        time_end = time.time_ns()
         time_spent = time_end-time_start
 
     else:
-        time_start = time.time()
+        time_start = time.time_ns()
         # If the user enters any other choice then the search will be unsuccessful
         print("Invalid search criteria")
-        time_end = time.time()
+        time_end = time.time_ns()
         time_spent = time_end-time_start
         
         return -1

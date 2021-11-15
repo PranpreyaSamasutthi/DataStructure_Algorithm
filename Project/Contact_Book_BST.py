@@ -3,6 +3,7 @@ import sys
 import csv
 import os
 import math
+import time
 
 
 class Node:
@@ -93,20 +94,29 @@ class Tree:
     def find(self):
         name = str(input("Enter name that you want to search: ")).lower()
         if self.root is not None:
-            return self._find(name, self.root)
+            time_start = time.time_ns()
+            return self._find(name, self.root, time_start)
         else:
             return print("Invalid search criteria")
 
-    def _find(self, val, node):
-        if val == str(node.v).lower():
+    def _find(self, val, node, time_start):
+        if val < node.v and node.l is not None:
+            return self._find(val, node.l, time_start)
+        elif val > node.v and node.r is not None:
+            return self._find(val, node.r, time_start)
+        else:
+            # print("val ", val)
             for i in range(len(pb)):
                 if val == pb[i][0].lower():
+                    # print("val2 ", val)
+                    # print("PB ", pb[i][0].lower())
                     info = "Number: " + pb[i][1] + ", Email: " + pb[i][2] + ", DOB: " + pb[i][3] + ", Category: " + pb[i][4]
-                    return print(node.v + " -> " + info)
-        elif val < node.v and node.l is not None:
-            return self._find(val, node.l)
-        elif val > node.v and node.r is not None:
-            return self._find(val, node.r)
+                    time_end = time.time_ns()
+                    print("End", time_end)
+                    print("Start ", time_start)
+                    time_spent = time_end-time_start
+                    return print(val + " -> " + info + "\n" + "Time Usage: ", time_spent)
+
 
     def printTree(self):
         if self.root is not None:
@@ -230,7 +240,7 @@ print("....................................................................")
 ch = 1
 tree = Tree()
 pb = initial_phonebook()
-print("Existing contact in phonebook -> ", pb)
+# print("Existing contact in phonebook -> ", pb)
 for i in range(len(pb)):
     # print(pb[i])
     tree.add(pb[i], 1)
