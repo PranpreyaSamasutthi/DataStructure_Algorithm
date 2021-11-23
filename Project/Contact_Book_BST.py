@@ -4,7 +4,7 @@ import csv
 import os
 import math
 import time
-
+from datetime import datetime
 
 class Node:
     def __init__(self, val):
@@ -65,7 +65,12 @@ class Tree:
                 phoneBook.append(dip)
             return phoneBook
         else:
+            time_start = time.perf_counter_ns()
             self._add(dip[0], self.root, dip, check)
+            time_end = time.perf_counter_ns()
+            time_spent = time_end - time_start
+            if check != 1:
+                print("Time Usage: ", time_spent)
             # print(self.root)
             return phoneBook
 
@@ -94,7 +99,7 @@ class Tree:
     def find(self):
         name = str(input("Enter name that you want to search: ")).lower()
         if self.root is not None:
-            time_start = time.time_ns()
+            time_start = time.perf_counter_ns()
             return self._find(name, self.root, time_start)
         else:
             return print("Invalid search criteria")
@@ -111,10 +116,10 @@ class Tree:
                     # print("val2 ", val)
                     # print("PB ", pb[i][0].lower())
                     info = "Number: " + pb[i][1] + ", Email: " + pb[i][2] + ", DOB: " + pb[i][3] + ", Category: " + pb[i][4]
-                    time_end = time.time_ns()
-                    print("End", time_end)
-                    print("Start ", time_start)
-                    time_spent = time_end-time_start
+                    time_end = time.perf_counter_ns()
+                    # print("End", time_end)
+                    # print("Start ", time_start)
+                    time_spent = time_end - time_start
                     return print(val + " -> " + info + "\n" + "Time Usage: ", time_spent)
 
 
